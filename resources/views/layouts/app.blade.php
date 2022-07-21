@@ -1,33 +1,28 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+@include('admin.partials.head')
+{{-- @include('noty::message')
+@notifyCss --}}
+{{-- @include('notify::messages') --}}
+<body class="g-sidenav-show  bg-gray-100">
+    @include('admin.partials.sidebar')
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        @include('admin.partials.navbar')
+        <!-- End Navbar -->
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        <div class="container-fluid py-4">
+            {{-- @include('admin.partials.flash-message') --}}
+            @include('sweetalert::alert')
+            {{ $slot }}
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            @include('admin.partials.footer')
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
         </div>
-    </body>
+    </main>
+    @include('admin.partials.scripts')
+
+</body>
+
 </html>
