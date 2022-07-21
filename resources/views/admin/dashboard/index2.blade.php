@@ -19,8 +19,8 @@
                                 </a>
                             </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#cam3" role="tab"
-                                    aria-controls="cam3" aria-selected="false">
+                                <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="#cam2" role="tab"
+                                    aria-controls="cam2" aria-selected="false">
                                     Belum Diterima
                                 </a>
                             </li>
@@ -137,8 +137,19 @@
                                                     <a href="{{route('data-akademik.show', $b->id)}}" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
                                                     <i class="fas fa-eye text-secondary"></i>
                                                     </a>
+                                                    <form id="form-delete" action="{{route('data-akademik.destroy', $b->id)}}" method="POST" style="display: inline">
+                                                        @csrf
+                                                        @method("DELETE")
+                                                        <button type="submit" class="btn btn-link text-danger text-gradient px-3 mb-0 show_confirm" data-toggle="tooltip" title='Delete' ><i class="fas fa-trash text-secondary"></i></button>
+                                                      </form>
+                                                    <form id="form-acc" action="{{route('data-akademik-approve', $b->id)}}" method="POST" style="display: inline">
+                                                        @csrf
+                                                        @method("PUT")
+                                                        <button type="submit" class="btn btn-link text-danger text-gradient px-3 mb-0 show_confirm" data-toggle="tooltip" title='Delete' ><i class="fas fa-user-edit text-secondary"></i></button>
+                                                      </form>
                                                 </td>
                                                 </tr>
+
                                             @endforeach
                                         </tbody>
                                     </table>

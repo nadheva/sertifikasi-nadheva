@@ -6,7 +6,7 @@
               {{-- <p>Anda belum mengisi data profil, silahkan isi terlebih dahulu!.</p> --}}
             </div>
             <div class="col-lg-6 text-right d-flex flex-column justify-content-center">
-              <a class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2" href="{{route('printpdf', $dataakademik->id)}}">Print</a>
+              <a class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2" href="{{route('printpdf')}}">Print</a>
             </div>
           </div>
         <div class="row mt-4">
@@ -118,4 +118,7 @@
 
      </div>
         </div>
+        <script>
+            window.print();
+        </script>
 </x-app-layout>

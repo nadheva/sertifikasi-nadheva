@@ -86,7 +86,12 @@ class DataAkademikController extends Controller
     public function show($id)
     {
         $dataakademik = DataAkademikSiswa::findOrfail($id);
-        return view('user.dataakademik.show', compact('dataakademik'));
+        return view('admin.pendaftaran.index', compact('dataakademik'));
+    }
+    public function printpdf($id)
+    {
+        $dataakademik = DataAkademikSiswa::where('id',$id)->first();
+        return view('admin.pendaftaran.cetak', compact('dataakademik'));
     }
 
     /**
@@ -145,7 +150,9 @@ class DataAkademikController extends Controller
      */
     public function destroy($id)
     {
-        $dataakadmemik = DataAkademikSiswa::where('user_id', Auth::user()->id)->delete();
+        // $dataakadmemik = DataAkademikSiswa::where('user_id', Auth::user()->id)->delete();
+        // {
+        $dataakadmemik = DataAkademikSiswa::where('id', $id)->delete();
         Alert::warning('Warning', 'Data Akademik Siswa Berhasil Dihapus!');
         return redirect()->back();
     }
@@ -154,10 +161,9 @@ class DataAkademikController extends Controller
     {
         $dataakademik = DataAkademikSiswa::findOrfail($id);
         $dataakademik->update([
-            'approval' => '1',
-            'proses' => 'Disewa'
+            'status' => '1',
         ]);
-        Alert::success('Success', 'Pengajuan sewa studio berhasil disetujui!');
+        Alert::success('Success', 'Siswa Berhasil Diterima!');
         return redirect()->back();
     }
 }

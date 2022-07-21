@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\DashboardController;
 use App\Models\InformasiPendaftaran;
+use Illuminate\Contracts\Validation\DataAwareRule;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', UserController::class)->except('update');
 
     //Data Akademik
-    Route::resource('data-akademik', DataAkademikController::class)->except('update');
+    Route::resource('data-akademik', DataAkademikController::class)->except('update', 'approve', 'printpdf');
+    Route::get('printpdf/{id}', [DataAkademikController::class, 'printpdf'])->name('printpdf');
+    Route::put('data-akademik-approve/{id}', [DataAkademikController::class, 'approve'])->name('data-akademik-approve');
 });
 
 require __DIR__.'/auth.php';
