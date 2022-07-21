@@ -17,7 +17,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('informasi_pendaftaran_id')->constrained('informasi_pendaftaran')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->int('nisn');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->string('asal_sekolah');
+            $table->double('rata_rata_nilai_un');
+            $table->string('foto');
+            $table->string('alamat');
+            $table->enum('status_pendaftaran', ['Diterima', 'Cadangan', 'Tidak Diterima']);
+            $table->string('scan_ijazah');
+            $table->string('scan_nilai_un');
             $table->timestamps();
         });
     }

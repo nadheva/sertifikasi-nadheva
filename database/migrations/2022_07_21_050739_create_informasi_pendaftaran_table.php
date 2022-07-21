@@ -13,8 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('siswa', function (Blueprint $table) {
+        Schema::create('informasi_pendaftaran', function (Blueprint $table) {
             $table->id();
+            $table->string('tahun_ajaran');
+            $table->text('deskripsi');
+            $table->enum('status', ['Dibuka', 'Ditutup']);
+            $table->int('kuota');
+            $table->double('kkm');
+            $table->string('gambar');
+            $table->string('link_youtube');
             $table->timestamps();
         });
     }
@@ -26,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('siswa');
+        Schema::dropIfExists('informasi_pendaftaran');
     }
 };

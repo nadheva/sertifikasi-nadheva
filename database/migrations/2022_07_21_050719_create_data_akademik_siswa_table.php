@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('profile', function (Blueprint $table) {
+        Schema::create('data_akademik_siswa', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('nama');
-            $table->string('email');
-            $table->text('alamat');
-            $table->int('no_telp');
+            $table->int('nisn');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->string('asal_sekolah');
+            $table->float('rata_rata_nilai_un');
             $table->string('foto');
+            $table->string('alamat');
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profile');
+        Schema::dropIfExists('data_akademik_siswa');
     }
 };
