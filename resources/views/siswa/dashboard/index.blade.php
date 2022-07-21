@@ -105,6 +105,14 @@
                         <label>Nilai Rata-rata</label>
                         <input class="multisteps-form__input form-control" type="text" value="{{$dataakademik->nilai_rata_rata}}" disabled/>
                       </div>
+                      <div class="col-6 col-sm-3 mt-3 mt-sm-0">
+                        <label>Status</label>
+                        @if($dataakademik->status == 0)
+                        <input class="multisteps-form__input form-control" type="text" value="Belum Diterima" disabled></input>
+                        @elseif($dataakademik->status == 1)
+                        <input class="multisteps-form__input form-control" type="text" value="Diterima" disabled ></input>
+                        @endif
+                      </div>
                     </div>
                 </div>
               </div>
@@ -144,6 +152,7 @@
                     </div>
                       <div class="modal-body">
                         <div class="form-group">
+                            {{-- <input type="hidden" name="status" value="diproses"> --}}
                             <label for="recipient-name" class="col-form-label">Foto:</label>
                             <input type="file" class="form-control" name="foto" placeholder="*Foto" required>
                         </div>

@@ -70,7 +70,7 @@ class DataAkademikController extends Controller
             'nilai_rata_rata' => ($request->nilai_bindo + $request->nilai_mtk + $request->nilai_big)/3,
             'foto' => $txt,
             'alamat' => $request->alamat,
-            'status' => 'Tidak Diterima',
+            'status' => 0,
             ]);
 
         Alert::success('Success', 'Informasi Pendafataran Berhasil Diinput!');

@@ -26,9 +26,8 @@ return new class extends Migration
             $table->integer('nilai_big');
             $table->integer('nilai_rata_rata');
             $table->string('foto');
+            $table->boolean('status');
             $table->string('alamat');
-            // $table->boolean('status_pendaftaran')->default(0);
-            $table->enum('status', ['Diterima', 'Cadangan', 'Tidak Diterima'])->nullable();
             $table->timestamps();
         });
     }

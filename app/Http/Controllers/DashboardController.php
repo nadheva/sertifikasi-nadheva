@@ -15,8 +15,10 @@ class DashboardController extends Controller
     public function index()
     {
         if(Auth::user()->role == 'Admin'){
-            $dataakademik = DataAkademikSiswa::orderBy('nilai_rata_rata', 'desc')->get();
-            return view('admin.dashboard.index', compact('dataakademik'));
+            $dataakademik = DataAkademikSiswa::get();
+            $dataakademikacc = DataAkademikSiswa::where('status', '=', '1')->get();
+            $dataakademiknot = DataAkademikSiswa::where('status', '=', '0')->get();
+            return view('admin.dashboard.index2', compact('dataakademik'));
         }
         elseif(Auth::user()->role == 'Siswa'){
             $dataakademik = DataAkademikSiswa::where('user_id', Auth::user()->id)->first();
