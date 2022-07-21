@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('nisn');
+            $table->integer('no_telp');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('asal_sekolah');
@@ -26,7 +27,8 @@ return new class extends Migration
             $table->integer('nilai_rata_rata');
             $table->string('foto');
             $table->string('alamat');
-            $table->boolean('status_pendaftaran')->default(0);
+            // $table->boolean('status_pendaftaran')->default(0);
+            $table->enum('status', ['Diterima', 'Cadangan', 'Tidak Diterima'])->nullable();
             $table->timestamps();
         });
     }

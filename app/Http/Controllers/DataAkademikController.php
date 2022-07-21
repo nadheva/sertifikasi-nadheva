@@ -46,10 +46,17 @@ class DataAkademikController extends Controller
             'nilai_mtk' => 'required',
             'nilai_bindo' => 'required',
             'nilai_big' => 'required',
-            'foto' => 'required',
-            'alamat' => 'reqired'
+            'foto' => 'required|max:500000',
+            'alamat' => 'required'
         ]);
-
+        if (isset($request->foto)) {
+            $extention = $request->foto->extension();
+            $file_name = time() . '.' . $extention;
+            $txt = "storage/foto_siswa/". $file_name;
+            $request->foto->storeAs('public/foto_siswa', $file_name);
+        } else {
+            $txt = null;
+        }
          DataAkademikSiswa::create([
             'user_id' => Auth::user()->id,
             'nisn' => $request->nisn,
@@ -57,13 +64,15 @@ class DataAkademikController extends Controller
             'tanggal_lahir' => $request->tanggal_lahir,
             'asal_sekolah' => $request->asal_sekolah,
             'nilai_mtk' => $request->nilai_mtk,
+            'no_telp' => $request->no_telp,
             'nilai_bindo' => $request->nilai_bindo,
             'nilai_big' => $request->nilai_big,
             'nilai_rata_rata' => ($request->nilai_bindo + $request->nilai_mtk + $request->nilai_big)/3,
             'foto' => $txt,
             'alamat' => $request->alamat,
-            'status_pendaftaran' => '0',
+            'status' => 'Tidak Diterima',
             ]);
+
         Alert::success('Success', 'Informasi Pendafataran Berhasil Diinput!');
         return redirect()->back();
     }
@@ -100,7 +109,32 @@ class DataAkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nisn' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'asal_sekolah' => 'required',
+            'nilai_mtk' => 'required',
+            'nilai_bindo' => 'required',
+            'nilai_big' => 'required',
+            'foto' => 'required',
+            'alamat' => 'reqired'
+        ]);
+        if (isset($request->foto)) {
+            $extention = $request->foto->extension();
+            $file_name = time() . '.' . $extention;
+            $txt = "storage/foto_siswa/". $file_name;
+            $request->foto->storeAs('public/foto_siswa', $file_name);
+        } else {
+            $txt = null;
+        }
+        $dataakademik = DataAkademikSiswa::findOrfail($id);
+            $dataakademik->foto = $txt;
+            $dataakademik->alamat = $request->alamat;
+            $dataakademik->save();
 
+        Alert::success('Success', 'Informasi Pendafataran Berhasil Diinput!');
+        return redirect()->back();
     }
 
     /**
@@ -113,6 +147,17 @@ class DataAkademikController extends Controller
     {
         $dataakadmemik = DataAkademikSiswa::where('user_id', Auth::user()->id)->delete();
         Alert::warning('Warning', 'Data Akademik Siswa Berhasil Dihapus!');
+        return redirect()->back();
+    }
+
+    public function approve($id)
+    {
+        $dataakademik = DataAkademikSiswa::findOrfail($id);
+        $dataakademik->update([
+            'approval' => '1',
+            'proses' => 'Disewa'
+        ]);
+        Alert::success('Success', 'Pengajuan sewa studio berhasil disetujui!');
         return redirect()->back();
     }
 }

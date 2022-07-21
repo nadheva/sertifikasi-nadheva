@@ -1,23 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 use App\Models\InformasiPendaftaran;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Pendaftaran;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 
-class InformasiPendaftaranController extends Controller
+class InformasiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $informasi = InformasiPendaftaran::latest()->get();
-        return view('admin.infromasi.index', compact('informasi'));
+        return view('admin.informasi.index', compact('informasi'));
     }
 
     /**
@@ -46,14 +40,21 @@ class InformasiPendaftaranController extends Controller
             'gambar' => 'required',
             'link_youtube' => 'required'
         ]);
-
+        if (isset($request->gambar)) {
+            $extention = $request->gambar->extension();
+            $file_name = time() . '.' . $extention;
+            $txt = "storage/informasi/". $file_name;
+            $request->gambar->storeAs('public/informasi', $file_name);
+        } else {
+            $txt = null;
+        }
         InformasiPendaftaran::create([
             'tahun_ajaran' => $request->tahun_ajaran,
             'deskripsi' => $request->deskripsi,
-            'status' => 'dibuka',
+            'status' => 'Dibuka',
             'kuota' => $request->kuota,
             'kkm' => $request->kkm,
-            'gambar' => $request->gambar,
+            'gambar' => $txt,
             'link_youtube' => $request->link_youtube,
         ]);
         Alert::success('Success', 'Informasi Pendafataran Berhasil Diinput!');
@@ -68,8 +69,10 @@ class InformasiPendaftaranController extends Controller
      */
     public function show($id)
     {
-        $informasi = InformasiPendaftaran::findOrfail($id);
-        return view('admin.informasi.detail',compact('informasi') );
+        // $informasi = InformasiPendaftaran::findOrfail($id);
+        // return view('admin.informasi.detail',compact('informasi') );
+        $informasi = Pendaftaran::where('id', $id)->orderBy('nilai_rata_rata', 'desc')->get();
+        return view('admin.pendaftaran.index', compact('pendaftaran'));
     }
 
     /**
@@ -98,8 +101,16 @@ class InformasiPendaftaranController extends Controller
         $informasi->status = $request->status;
         $informasi->kuota = $request->kuota;
         $informasi->kkm = $request->kkm;
-        $informasi->gambar = $request->gambar;
         $informasi->link_youtube = $request->link_youtube;
+        if (isset($request->gambar)) {
+            $extention = $request->gambar->extension();
+            $file_name = time() . '.' . $extention;
+            $txt = "storage/informasi/". $file_name;
+            $request->gambar->storeAs('public/informasi', $file_name);
+            $informasi->gambar = $txt;
+        } else {
+            $txt = null;
+        }
         $informasi->save();
         Alert::info('Info', 'Informasi Pendafataran Berhasil Diedit!');
         return redirect()->back();

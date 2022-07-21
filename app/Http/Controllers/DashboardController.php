@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\DataAkademikSiswa;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -13,7 +14,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->role == 'Admin'){
+            $dataakademik = DataAkademikSiswa::orderBy('nilai_rata_rata', 'desc')->get();
+            return view('admin.dashboard.index', compact('dataakademik'));
+        }
+        elseif(Auth::user()->role == 'Siswa'){
+            $dataakademik = DataAkademikSiswa::where('user_id', Auth::user()->id)->first();
+            return view('siswa.dashboard.index', compact('dataakademik'));
+        }
     }
 
     /**

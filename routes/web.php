@@ -3,11 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DataAkademikController;
-use App\Http\Controllers\Admin\InformasiPendaftaranController;
-use App\Http\Controllers\User\PendaftaranController;
+// use App\Http\Controllers\InformasiPendaftaranController;
+// use App\Http\Controllers\Admin\InformasiPendaftaranController;
+use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\DashboardController;
+use App\Models\InformasiPendaftaran;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,19 +32,22 @@ use App\Http\Controllers\DashboardController;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('/');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     //Auth
     Route::get('login', [AuthenticatedSessionController::class, 'create'] );
     Route::get('logout', [AuthenticatedSessionController::class, 'destroy'] );
 
-    //Informasi Pendafatran
-    Route::resource('informasi-pendaftaran', InformasiPendaftaranController::class)->except('update');
+    //Siswa
+    Route::resource('siswa', SiswaController::class)->except('update');
 
+    //Informasi Pendafatran
+    Route::resource('informasi-pendaftaran', InformasiController::class)->except('update');
+    Route::put('informasi-pendaftaran-update/{id}', [InformasiPendaftaran::class, 'update']);
     //Pendafatran
     Route::resource('pendaftaran', PendaftaranController::class)->except('update');
 
     //Profile
-    Route::resource('profile', ProfileController::class)->except('update');
+    Route::resource('profil', ProfileController::class)->except('update');
 
     //User
     Route::resource('user', UserController::class)->except('update');
