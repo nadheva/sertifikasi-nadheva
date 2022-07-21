@@ -4,6 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pendaftaran;
+use App\Models\InformasiPendaftaran;
+use App\Models\DataAkademikSiswa;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 
@@ -38,7 +41,28 @@ class PendaftaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            // 'tahun_ajaran' => 'required',
+            // 'deskripsi' => 'required',
+            // 'kuota' => 'required',
+            // 'kkm' => 'required',
+            // 'gambar' => 'required',
+            // 'link_youtube' => 'required'
+        ]);
+        $user = Auth::user();
+        $dataakademik = DataAkademikSiswa::where('user_id', Auth::user()->id);
+        Pendaftaran::create([
+            'informasi_pendaftaran_id' => $request->informasi_pendaftaran_id,
+            'user_id' => Auth::user()->id,
+            'nilai_rata_rata' => $dataakademik->nilai_rata_rata,
+            // 'tempat_lahir' => $request->tempat_lahir,
+            // 'tanggal_lahir' => $request->tanggal_lahir,
+            // 'asal_sekolah' => $request->asal_sekolah,
+            // 'rata_rata_nilai_un' => $request->rata_rata_nilai_un,
+            // 'rata_rata_nilai_un' => $request->foto,
+        ]);
+        Alert::success('Success', 'Informasi Pendafataran Berhasil Diinput!');
+        return redirect()->back();
     }
 
     /**
@@ -72,7 +96,11 @@ class PendaftaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pendaftaran = Pendaftaran::findOrfail($id);
+        $pendaftaran->status = $request->status;
+        $pendaftaran->save();
+        Alert::info('Info', 'Status Pendaftaran Berhasil Diubah!');
+        return redirect()->back();
     }
 
     /**
@@ -83,6 +111,7 @@ class PendaftaranController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pendaftaran = Pendaftaran::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

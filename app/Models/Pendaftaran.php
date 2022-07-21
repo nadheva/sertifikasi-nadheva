@@ -20,8 +20,8 @@ class Pendaftaran extends Model
         'foto',
         'alamat',
         'status_pendaftaran',
-        'scan_ijazah',
-        'scan_nilai_un'
+        // 'scan_ijazah',
+        // 'scan_nilai_un'
     ];
 
     public function user()

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email');
             $table->text('alamat');
-            $table->int('no_telp');
+            $table->integer('no_telp');
             $table->string('foto');
             $table->timestamps();
         });

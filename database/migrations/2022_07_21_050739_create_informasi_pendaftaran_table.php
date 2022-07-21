@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('tahun_ajaran');
             $table->text('deskripsi');
             $table->enum('status', ['Dibuka', 'Ditutup']);
-            $table->int('kuota');
+            $table->integer('kuota');
             $table->double('kkm');
             $table->string('gambar');
             $table->string('link_youtube');
